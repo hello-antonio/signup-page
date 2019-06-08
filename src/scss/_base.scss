@@ -1,0 +1,101 @@
+:focus {
+    outline-color: $c-primary;
+    outline-width: 3px;
+    outline-offset: 5px;
+    outline-style: dashed;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font: $font-regular #{$font-base}/1.6 $font-family-default;
+    background-color: white;
+    color: $c-primary;
+}
+
+body {
+    font-family: $font-family-theme;
+}
+
+a {
+    color: $c-blue;
+    display: inline-block;
+    text-decoration: none;
+    transition: color ease-in-out 250ms;
+
+    &:hover {
+        color: $c-blue;
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 1rem;
+    font-weight: $font-bold;
+}
+
+h1 {
+    font-size: $h1 / 1.5;
+}
+
+p:not(:last-of-type) {
+    font-size: 1rem;
+    max-width: 620px;
+    margin: 0 0 2em;
+}
+
+header,
+section,
+footer {
+    padding: 2em 0;
+}
+
+@media screen and (min-width: 1200px) {
+
+    footer,
+    header,
+    section {
+        padding: 4em 0;
+    }
+
+    h1 {
+        font-size: $h1;
+    }
+}
+
+img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+
+    &[data-img=png] {
+        width: auto;
+    }
+
+    &[data-img=svg] {
+        width: 44px;
+        height: 100%;
+    }
+}

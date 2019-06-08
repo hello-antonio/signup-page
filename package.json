@@ -1,0 +1,38 @@
+{
+    "name": "signup-form",
+    "version": "1.0.0",
+    "description": "Website challenge",
+    "private": true,
+    "browserslist": [
+        "> 1%",
+        "last 2 versions"
+    ],
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "prebuild": "rm -rf docs/*",
+        "start": "parcel serve src/index.html --open --out-dir docs",
+        "build": "parcel build src/index.html --out-dir docs --public-url ./",
+        "watch": "parcel watch --out-dir docs src/index.html --no-cache",
+        "deploy": "npm run build && git add . && git commit -a -m 'latest build' && git push origin master"
+    },
+    "devDependencies": {
+        "autoprefixer": "^9.4.9",
+        "page": "^1.11.4",
+        "parcel-bundler": "^1.11.0",
+        "postcss-modules": "^1.4.1",
+        "sass": "^1.17.2",
+        "webfontloader": "^1.6.28"
+    },
+    "keywords": [
+        "front end",
+        "web",
+        "css",
+        "html",
+        "js",
+        "parceljs"
+    ],
+    "author": "Giovanni De Andre <hello.giolara@gmail.com>",
+    "license": "MIT"
+}
