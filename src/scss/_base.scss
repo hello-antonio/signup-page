@@ -35,13 +35,13 @@ body {
 }
 
 a {
-    color: $c-blue;
+    color: $c-dark-blue;
     display: inline-block;
     text-decoration: none;
     transition: color ease-in-out 250ms;
 
     &:hover {
-        color: $c-blue;
+        color: $c-grayish-blue;
     }
 }
 
@@ -58,7 +58,6 @@ h3 {
 
 h1 {
     font-size: $h1 / 1.5;
-    color: $c-dark-blue;
 }
 
 p:not(:last-of-type) {
@@ -69,6 +68,11 @@ p:not(:last-of-type) {
 
 footer {
     padding: 1em 0;
+}
+
+input,
+label {
+    font-size: inherit;
 }
 
 @media screen and (min-width: 1200px) {

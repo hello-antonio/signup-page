@@ -1,5 +1,7 @@
 .bg {
     position: relative;
+    width: 100%;
+    height: 100%;
 
     &::before {
         content: '';
@@ -23,39 +25,50 @@ $input-pad : $padding $padding * 2;
 
 .form {
     max-width: 540px;
-    background-color: #fff;
-    padding: $padding * 2;
+    padding: $padding;
     border-radius: 12px;
+    background-color: #fff;
     font-weight: $font-bold;
+    box-shadow: 0 6px 0 1px rgba($c-blue, .16);
+
+    @media screen and (min-width:600px) {
+        padding: $padding * 2;
+    }
 
     label {
-        color: $c-dark-blue;
+        color: lighten($c-dark-blue, 20);
     }
 
     input {
+        height: inherit;
+        width: 100%;
+        padding: $padding;
+
+        @media screen and (min-width:600px) {
+            padding: $input-pad;
+        }
+
+        border-radius: 4px;
+        border: 1px solid $c-grayish-blue;
         color: #000;
         font-weight: $font-bold;
         font-family: inherit;
-        height: inherit;
-        width: 100%;
-        padding: $input-pad;
-        border-radius: 3px;
-        border: 1px solid $c-grayish-blue;
     }
 
     input[type=submit] {
-        font-weight: $font-semibold;
         background-color: $c-green;
         border: transparent;
-        letter-spacing: 2px;
-        color: #fff;
         box-shadow: 0 4px 0 1px darken($c-green, 4);
+        color: #fff;
+        font-weight: $font-semibold;
+        letter-spacing: 2px;
     }
 
     input.invalid {
         background: url('../images/icon-error.svg') no-repeat 95% 50%;
         background-size: 2em;
         border-color: $c-red;
+        outline-color: $c-red;
     }
 
     input.valid {
@@ -76,7 +89,12 @@ $input-pad : $padding $padding * 2;
         position: relative;
 
         &__placeholder {
-            padding: $input-pad;
+            padding: $padding;
+
+            @media screen and (min-width:600px) {
+                padding: $input-pad;
+            }
+
             width: 100%;
             position: absolute;
             transform: translateY(0);
@@ -92,35 +110,35 @@ $input-pad : $padding $padding * 2;
 }
 
 .help {
+    margin: 0 0 $gutter;
+    color: $c-red;
     font-style: italic;
     font-weight: normal;
-    color: $c-red;
     font-size: 0.675rem;
     text-align: right;
-    margin: 0 0 $gutter;
 }
 
 .cta {
     margin: 0 0 $gutter;
     width: 100%;
-    text-align: center;
     height: 60px;
-    background-color: $c-blue;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     box-shadow: 0 6px 0 1px rgba($c-blue, .16);
+    background-color: $c-blue;
+    text-align: center;
 }
 
 .legal {
-    text-align: center;
+    color: $c-green;
     font-size: 0.675rem;
     font-weight: normal;
-    color: $c-green;
+    text-align: center;
 }
 
 .intro {
-    font-weight: $font-semibold;
     margin: 2em auto;
+    font-weight: $font-semibold;
 }

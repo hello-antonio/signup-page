@@ -39,39 +39,39 @@
     init() {
       this._form.addEventListener("submit", this.handleSubmit.bind(this));
 
-      this.fields.forEach(input => {
-        input.addEventListener("focus", this.handleFocus.bind(this));
-        input.addEventListener("blur", this.handleBlur.bind(this));
-        input.addEventListener("keyup", this.handleKeyboard.bind(this));
+      this.fields.forEach(field => {
+        field.addEventListener("focus", this.handleFocus.bind(this), true);
+        field.addEventListener("blur", this.handleBlur.bind(this), true);
+        field.addEventListener("input", this.handleInput.bind(this));
       });
     }
 
     validate(field) {
       const { value, type, name } = field;
 
-      if (value === "") {
-        tthis.addAlert();
-      } else if (name === "email") {
-        if (this.validator[name].regex.test(value)) {
-          this.removeAlert();
-        } else {
-          this.addAlert();
-        }
-      } else if (this.validator[type].regex.test(value)) {
-        this.removeAlert();
-      } else {
-        this.addAlert();
-      }
+      if (value === "") return false;
+      else if (name === "email")
+        if (this.validator[name].regex.test(value)) return true;
+        else return false;
+      else if (this.validator[type].regex.test(value)) return true;
+      else return false;
     }
 
-    addAlert() {
+    addValidation(field) {
+      if (this.validate(field)) this.removeAlert(field.id);
+      else this.addAlert(field.id);
+    }
+
+    addAlert(id) {
+      const field = this.fields.find(field => field.id === id);
       this.setAlert(field);
-      this.setError(name);
+      this.setError(field.name);
     }
 
-    removeAlert() {
+    removeAlert(id) {
+      const field = this.fields.find(field => field.id === id);
       this.clearAlert(field);
-      this.clearError(name);
+      this.clearError(field.name);
     }
 
     setAlert(field) {
@@ -103,7 +103,7 @@
       this._errors.splice(this._errors.indexOf(errName), 1);
     }
 
-    focusFieldError(name) {
+    setFocus(name) {
       const el = this.fields.find(el => el.name === name);
       el.focus();
     }
@@ -117,15 +117,15 @@
     submitForm() {
       // If found errors from instant validation then auto focus the first error
       if (this._errors.length > 0) {
-        this.focusFieldError(this._errors[0]);
+        this.setFocus(this._errors[0]);
         return false;
       }
       // else validate fields if user left empty fields
       else if (this.getEmptyFields().length > 0) {
         this.getEmptyFields().forEach(field => {
-          this.validate(field);
+          this.addValidation(field);
         });
-        this.focusFieldError(this.getEmptyFields()[0].name);
+        this.setFocus(this.getEmptyFields()[0].name);
         return false;
       }
       // ready to subumit form
@@ -144,14 +144,14 @@
     }
 
     handleBlur({ target }) {
-      if (target.value.length === 0) {
+      if (target.value.length == 0) {
         target.parentElement.classList.remove("focused");
       }
     }
 
-    handleKeyboard({ target }) {
+    handleInput({ target }) {
       // handles instant validation the field
-      this.validate(target);
+      this.addValidation(target);
     }
   }
 

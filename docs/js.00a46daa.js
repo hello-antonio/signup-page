@@ -175,10 +175,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         this._form.addEventListener("submit", this.handleSubmit.bind(this));
 
-        this.fields.forEach(function (input) {
-          input.addEventListener("focus", _this.handleFocus.bind(_this));
-          input.addEventListener("blur", _this.handleBlur.bind(_this));
-          input.addEventListener("keyup", _this.handleKeyboard.bind(_this));
+        this.fields.forEach(function (field) {
+          field.addEventListener("focus", _this.handleFocus.bind(_this), true);
+          field.addEventListener("blur", _this.handleBlur.bind(_this), true);
+          field.addEventListener("input", _this.handleInput.bind(_this));
         });
       }
     }, {
@@ -187,32 +187,32 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         var value = field.value,
             type = field.type,
             name = field.name;
-
-        if (value === "") {
-          tthis.addAlert();
-        } else if (name === "email") {
-          if (this.validator[name].regex.test(value)) {
-            this.removeAlert();
-          } else {
-            this.addAlert();
-          }
-        } else if (this.validator[type].regex.test(value)) {
-          this.removeAlert();
-        } else {
-          this.addAlert();
-        }
+        if (value === "") return false;else if (name === "email") {
+          if (this.validator[name].regex.test(value)) return true;else return false;
+        } else if (this.validator[type].regex.test(value)) return true;else return false;
+      }
+    }, {
+      key: "addValidation",
+      value: function addValidation(field) {
+        if (this.validate(field)) this.removeAlert(field.id);else this.addAlert(field.id);
       }
     }, {
       key: "addAlert",
-      value: function addAlert() {
+      value: function addAlert(id) {
+        var field = this.fields.find(function (field) {
+          return field.id === id;
+        });
         this.setAlert(field);
-        this.setError(name);
+        this.setError(field.name);
       }
     }, {
       key: "removeAlert",
-      value: function removeAlert() {
+      value: function removeAlert(id) {
+        var field = this.fields.find(function (field) {
+          return field.id === id;
+        });
         this.clearAlert(field);
-        this.clearError(name);
+        this.clearError(field.name);
       }
     }, {
       key: "setAlert",
@@ -247,8 +247,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this._errors.splice(this._errors.indexOf(errName), 1);
       }
     }, {
-      key: "focusFieldError",
-      value: function focusFieldError(name) {
+      key: "setFocus",
+      value: function setFocus(name) {
         var el = this.fields.find(function (el) {
           return el.name === name;
         });
@@ -268,14 +268,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         // If found errors from instant validation then auto focus the first error
         if (this._errors.length > 0) {
-          this.focusFieldError(this._errors[0]);
+          this.setFocus(this._errors[0]);
           return false;
         } // else validate fields if user left empty fields
         else if (this.getEmptyFields().length > 0) {
             this.getEmptyFields().forEach(function (field) {
-              _this2.validate(field);
+              _this2.addValidation(field);
             });
-            this.focusFieldError(this.getEmptyFields()[0].name);
+            this.setFocus(this.getEmptyFields()[0].name);
             return false;
           } // ready to subumit form
           else return true;
@@ -298,16 +298,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       value: function handleBlur(_ref2) {
         var target = _ref2.target;
 
-        if (target.value.length === 0) {
+        if (target.value.length == 0) {
           target.parentElement.classList.remove("focused");
         }
       }
     }, {
-      key: "handleKeyboard",
-      value: function handleKeyboard(_ref3) {
+      key: "handleInput",
+      value: function handleInput(_ref3) {
         var target = _ref3.target;
         // handles instant validation the field
-        this.validate(target);
+        this.addValidation(target);
       }
     }]);
 
@@ -344,7 +344,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37333" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "42365" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
