@@ -1,0 +1,128 @@
+.bg {
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        background: url(../images/bg-intro-mobile.png) repeat center;
+
+        @media screen and (min-width: 376px) {
+            background: url(../images/bg-intro-desktop.png) repeat center;
+        }
+
+        background-size: cover;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: -1;
+    }
+}
+
+$input-pad : $padding $padding * 2;
+
+.form {
+    max-width: 540px;
+    background-color: #fff;
+    padding: $padding * 2;
+    border-radius: 12px;
+    font-weight: $font-bold;
+
+    label {
+        color: $c-dark-blue;
+    }
+
+    input {
+        color: #000;
+        font-weight: $font-bold;
+        font-family: inherit;
+        height: inherit;
+        width: 100%;
+        padding: $input-pad;
+        border-radius: 3px;
+        border: 1px solid $c-grayish-blue;
+    }
+
+    input[type=submit] {
+        font-weight: $font-semibold;
+        background-color: $c-green;
+        border: transparent;
+        letter-spacing: 2px;
+        color: #fff;
+        box-shadow: 0 4px 0 1px darken($c-green, 4);
+    }
+
+    input.invalid {
+        background: url('../images/icon-error.svg') no-repeat 95% 50%;
+        background-size: 2em;
+        border-color: $c-red;
+    }
+
+    input.valid {
+        background: url('../images/icon-check.svg') no-repeat 95% 50%;
+        background-size: 2em;
+        border-color: $c-dark-blue;
+    }
+
+    &__group:not(:last-child) {
+        margin: 0 0 $gutter / 2;
+        height: 56px;
+    }
+
+    .input {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        &__placeholder {
+            padding: $input-pad;
+            width: 100%;
+            position: absolute;
+            transform: translateY(0);
+            transition: transform ease-in-out 250ms;
+        }
+    }
+}
+
+.focused .input__placeholder {
+    top: 0;
+    transform: translateY(-10px);
+    color: $c-grayish-blue;
+    font-size: 0.675rem;
+}
+
+.help {
+    font-style: italic;
+    font-weight: normal;
+    color: $c-red;
+    font-size: 0.675rem;
+    text-align: right;
+    margin: 0 0 $gutter;
+    transition: all ease-in 250ms;
+}
+
+.cta {
+    margin: 0 0 $gutter;
+    width: 100%;
+    text-align: center;
+    height: 60px;
+    background-color: $c-blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 6px 0 1px rgba($c-blue, .16);
+}
+
+.legal {
+    text-align: center;
+    font-size: 0.675rem;
+    font-weight: normal;
+    color: $c-green;
+}
+
+.intro {
+    font-weight: $font-semibold;
+    margin: 2em auto;
+}

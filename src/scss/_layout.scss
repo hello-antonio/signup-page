@@ -1,0 +1,37 @@
+.container {
+    width: 98%;
+    max-width: $container-width;
+    margin: auto;
+    padding: $padding * 2 $padding;
+    min-height: 100vh;
+
+    @media screen and (min-width: 700px) {
+        width: 90%;
+        padding: 0 $padding;
+    }
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: $gutter * 2 auto;
+    min-height: 90vh;
+}
+
+.content {
+    width: 100%;
+    max-width: 540px;
+    order: 1;
+    flex: 0 1 auto;
+    height: auto;
+
+    &--mb-center {
+        text-align: left;
+
+        @media screen and (max-width: 375px) {
+            text-align: center;
+        }
+    }
+}

@@ -1,8 +1,8 @@
 :focus {
-    outline-color: $c-primary;
+    outline-color: $c-blue;
     outline-width: 3px;
     outline-offset: 5px;
-    outline-style: dashed;
+    outline-style: solid;
 }
 
 html {
@@ -26,8 +26,8 @@ body {
 
 body {
     font: $font-regular #{$font-base}/1.6 $font-family-default;
-    background-color: white;
-    color: $c-primary;
+    background-color: $c-red;
+    color: #fff;
 }
 
 body {
@@ -58,6 +58,7 @@ h3 {
 
 h1 {
     font-size: $h1 / 1.5;
+    color: $c-dark-blue;
 }
 
 p:not(:last-of-type) {
@@ -66,19 +67,11 @@ p:not(:last-of-type) {
     margin: 0 0 2em;
 }
 
-header,
-section,
 footer {
-    padding: 2em 0;
+    padding: 1em 0;
 }
 
 @media screen and (min-width: 1200px) {
-
-    footer,
-    header,
-    section {
-        padding: 4em 0;
-    }
 
     h1 {
         font-size: $h1;
@@ -89,13 +82,4 @@ img {
     width: 100%;
     height: auto;
     object-fit: contain;
-
-    &[data-img=png] {
-        width: auto;
-    }
-
-    &[data-img=svg] {
-        width: 44px;
-        height: 100%;
-    }
 }
