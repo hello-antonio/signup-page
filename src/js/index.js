@@ -85,10 +85,24 @@
       this._errors.push(errName);
     }
 
+    focusError(name) {
+      const el = this.fields.find(el => el.name === name);
+      el.focus();
+    }
+
+    getEmptyFields() {
+      return this.fields.filter(field => {
+        return field.value === "";
+      });
+    }
+
     handleSubmit(event) {
       event.preventDefault();
-      if (this._errors.length > 0) return false;
-      else return true;
+
+      if (this._errors.length > 0) this.focusError(this._errors[0]);
+      else if (this.getEmptyFields().length > 0) {
+        this.focusError(this.getEmptyFields()[0].name);
+      } else return true;
     }
 
     handleFocus({ target }) {

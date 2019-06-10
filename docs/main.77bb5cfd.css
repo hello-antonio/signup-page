@@ -2,7 +2,7 @@
   outline-color: #5f54a4;
   outline-width: 3px;
   outline-offset: 5px;
-  outline-style: solid;
+  outline-style: dotted;
 }
 
 html {
@@ -223,9 +223,8 @@ img {
 }
 
 .focused .input__placeholder {
-  top: 0;
-  -webkit-transform: translateY(-10px);
-          transform: translateY(-10px);
+  -webkit-transform: translateY(-15px);
+          transform: translateY(-15px);
   color: #b8b5d3;
   font-size: 0.675rem;
 }
@@ -237,8 +236,6 @@ img {
   font-size: 0.675rem;
   text-align: right;
   margin: 0 0 2em;
-  -webkit-transition: all ease-in 250ms;
-  transition: all ease-in 250ms;
 }
 
 .cta {

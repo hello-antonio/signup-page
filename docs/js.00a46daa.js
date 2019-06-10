@@ -226,10 +226,27 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this._errors.push(errName);
       }
     }, {
+      key: "focusError",
+      value: function focusError(name) {
+        var el = this.fields.find(function (el) {
+          return el.name === name;
+        });
+        el.focus();
+      }
+    }, {
+      key: "getEmptyFields",
+      value: function getEmptyFields() {
+        return this.fields.filter(function (field) {
+          return field.value === "";
+        });
+      }
+    }, {
       key: "handleSubmit",
       value: function handleSubmit(event) {
         event.preventDefault();
-        if (this._errors.length > 0) return false;else return true;
+        if (this._errors.length > 0) this.focusError(this._errors[0]);else if (this.getEmptyFields().length > 0) {
+          this.focusError(this.getEmptyFields()[0].name);
+        } else return true;
       }
     }, {
       key: "handleFocus",
@@ -287,7 +304,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43873" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36389" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

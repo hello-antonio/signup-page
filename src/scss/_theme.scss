@@ -86,8 +86,7 @@ $input-pad : $padding $padding * 2;
 }
 
 .focused .input__placeholder {
-    top: 0;
-    transform: translateY(-10px);
+    transform: translateY(-15px);
     color: $c-grayish-blue;
     font-size: 0.675rem;
 }
@@ -99,7 +98,6 @@ $input-pad : $padding $padding * 2;
     font-size: 0.675rem;
     text-align: right;
     margin: 0 0 $gutter;
-    transition: all ease-in 250ms;
 }
 
 .cta {
