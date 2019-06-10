@@ -69,6 +69,7 @@ $input-pad : $padding $padding * 2;
         background-size: 2em;
         border-color: $c-red;
         outline-color: $c-red;
+        color: $c-red;
     }
 
     input.valid {
