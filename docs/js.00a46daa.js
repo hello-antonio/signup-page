@@ -134,6 +134,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 (function () {
   var form = document.querySelector("form");
+  /**
+   * Client-Side Validation
+   * ATTENTION: Server-side validation is REQUIRED
+   */
 
   var ValidateClientSideForm =
   /*#__PURE__*/
@@ -142,6 +146,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _classCallCheck(this, ValidateClientSideForm);
 
       this._form = form;
+      /*
+      Validation patterns for different field types. Password validation is very loose, don't forget this is only a demo without clear requirement about this type of data.
+      */
+
       this.validator = {
         email: {
           regex: /^([a-zA-Z0-9\.-]{1,64})+@([a-z]{1,254})+\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
@@ -181,35 +189,55 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             name = field.name;
 
         if (value === "") {
-          // report error
-          this.addHelp(field);
-          this.reportError(name);
+          tthis.addAlert();
+        } else if (name === "email") {
+          if (this.validator[name].regex.test(value)) {
+            this.removeAlert();
+          } else {
+            this.addAlert();
+          }
         } else if (this.validator[type].regex.test(value)) {
-          // clean up errors
-          this.clearHelp(field);
-          this.clearError(name);
+          this.removeAlert();
         } else {
-          // report error
-          this.addHelp(field);
-          this.reportError(name);
+          this.addAlert();
         }
       }
     }, {
-      key: "addHelp",
-      value: function addHelp(field) {
-        var type = field.type;
+      key: "addAlert",
+      value: function addAlert() {
+        this.setAlert(field);
+        this.setError(name);
+      }
+    }, {
+      key: "removeAlert",
+      value: function removeAlert() {
+        this.clearAlert(field);
+        this.clearError(name);
+      }
+    }, {
+      key: "setAlert",
+      value: function setAlert(field) {
+        var type = field.type,
+            name = field.name;
         field.classList.add("invalid");
         field.classList.remove("valid");
         field.setAttribute("aria-invalid", true);
-        field.parentElement.nextElementSibling.textContent = "".concat(type === "email" ? this.validator[type].help : [field.labels[0].textContent, this.validator[type].help].join(" "));
+        field.parentElement.nextElementSibling.textContent = "".concat(name === "email" ? this.validator[name].help : [field.labels[0].textContent, this.validator[type].help].join(" "));
       }
     }, {
-      key: "clearHelp",
-      value: function clearHelp(field) {
+      key: "clearAlert",
+      value: function clearAlert(field) {
         field.classList.remove("invalid");
         field.classList.add("valid");
         field.setAttribute("aria-invalid", false);
         field.parentElement.nextElementSibling.textContent = "";
+      }
+    }, {
+      key: "setError",
+      value: function setError(errName) {
+        if (this._errors.includes(errName)) return;
+
+        this._errors.push(errName);
       }
     }, {
       key: "clearError",
@@ -219,15 +247,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this._errors.splice(this._errors.indexOf(errName), 1);
       }
     }, {
-      key: "reportError",
-      value: function reportError(errName) {
-        if (this._errors.includes(errName)) return;
-
-        this._errors.push(errName);
-      }
-    }, {
-      key: "focusError",
-      value: function focusError(name) {
+      key: "focusFieldError",
+      value: function focusFieldError(name) {
         var el = this.fields.find(function (el) {
           return el.name === name;
         });
@@ -241,12 +262,30 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         });
       }
     }, {
+      key: "submitForm",
+      value: function submitForm() {
+        var _this2 = this;
+
+        // If found errors from instant validation then auto focus the first error
+        if (this._errors.length > 0) {
+          this.focusFieldError(this._errors[0]);
+          return false;
+        } // else validate fields if user left empty fields
+        else if (this.getEmptyFields().length > 0) {
+            this.getEmptyFields().forEach(function (field) {
+              _this2.validate(field);
+            });
+            this.focusFieldError(this.getEmptyFields()[0].name);
+            return false;
+          } // ready to subumit form
+          else return true;
+      }
+    }, {
       key: "handleSubmit",
       value: function handleSubmit(event) {
-        event.preventDefault();
-        if (this._errors.length > 0) this.focusError(this._errors[0]);else if (this.getEmptyFields().length > 0) {
-          this.focusError(this.getEmptyFields()[0].name);
-        } else return true;
+        event.preventDefault(); // returns true if form has no errors else false forms has errors.
+
+        this.submitForm();
       }
     }, {
       key: "handleFocus",
@@ -267,6 +306,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       key: "handleKeyboard",
       value: function handleKeyboard(_ref3) {
         var target = _ref3.target;
+        // handles instant validation the field
         this.validate(target);
       }
     }]);
@@ -304,7 +344,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "36389" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "37333" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
