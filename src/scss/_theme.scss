@@ -66,7 +66,7 @@ $input-pad : $padding $padding * 2;
 
     input.invalid {
         background: url('../images/icon-error.svg') no-repeat 95% 50%;
-        background-size: 2em;
+        background-size: auto;
         border-color: $c-red;
         outline-color: $c-red;
         color: $c-red;
@@ -74,12 +74,12 @@ $input-pad : $padding $padding * 2;
 
     input.valid {
         background: url('../images/icon-check.svg') no-repeat 95% 50%;
-        background-size: 2em;
+        background-size: auto;
         border-color: $c-dark-blue;
     }
 
     &__group:not(:last-child) {
-        margin: 0 0 $gutter / 2;
+        margin: 0 0 $gutter;
         height: 56px;
     }
 
@@ -87,6 +87,7 @@ $input-pad : $padding $padding * 2;
         width: 100%;
         display: flex;
         align-items: center;
+        flex-flow: column nowrap;
         position: relative;
 
         &__placeholder {
@@ -105,13 +106,14 @@ $input-pad : $padding $padding * 2;
 }
 
 .focused .input__placeholder {
-    transform: translateY(-15px);
+    transform: translateY(-30px);
     color: $c-grayish-blue;
     font-size: 0.675rem;
 }
 
 .help {
-    margin: 0 0 $gutter;
+    width: 100%;
+    padding: 1em 0;
     color: $c-red;
     font-style: italic;
     font-weight: normal;

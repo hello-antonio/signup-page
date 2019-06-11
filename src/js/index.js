@@ -15,24 +15,22 @@
       this.validator = {
         email: {
           regex: /^([a-zA-Z0-9\.-]{1,64})+@([a-z]{1,254})+\.([a-z]{2,8})(\.[a-z]{2,8})?$/,
-          help: "Looks like this is not an email"
+          message: "Looks like this is not an email"
         },
         text: {
           regex: /^[a-zA-Z\s]+?$/,
-          help: "cannot be empty"
+          message: "cannot be empty"
         },
         password: {
           regex: /^[a-zA-Z0-9\_-]+?$/,
-          help: "cannot be empty"
+          message: "cannot be empty"
         }
       };
 
       this._errors = [];
 
       this.fields = [
-        ...this._form.querySelectorAll(
-          "input[type=text], input[type=email], input[type=password]"
-        )
+        ...this._form.querySelectorAll("input:not([type='submit'])")
       ];
     }
 
@@ -50,11 +48,9 @@
       const { value, type, name } = field;
 
       if (value === "") return false;
-      else if (name === "email")
-        if (this.validator[name].regex.test(value)) return true;
-        else return false;
-      else if (this.validator[type].regex.test(value)) return true;
-      else return false;
+      else if (name === "email" || type === "email")
+        return this.validator[name].regex.test(value);
+      else return this.validator[type].regex.test(value);
     }
 
     addValidation(field) {
@@ -79,18 +75,26 @@
       field.classList.add("invalid");
       field.classList.remove("valid");
       field.setAttribute("aria-invalid", true);
-      field.parentElement.nextElementSibling.textContent = `${
+
+      const message = `${
         name === "email"
-          ? this.validator[name].help
-          : [field.labels[0].textContent, this.validator[type].help].join(` `)
+          ? this.validator[name].message
+          : [field.labels[0].textContent, this.validator[type].message].join(
+              ` `
+            )
       }`;
+      if (field.nextElementSibling.classList.contains("help"))
+        field.nextElementSibling.textContent = message;
+      field.setCustomValidity(message);
     }
 
     clearAlert(field) {
       field.classList.remove("invalid");
       field.classList.add("valid");
       field.setAttribute("aria-invalid", false);
-      field.parentElement.nextElementSibling.textContent = "";
+      if (field.nextElementSibling.classList.contains("help"))
+        field.nextElementSibling.textContent = "";
+      field.setCustomValidity("");
     }
 
     setError(errName) {
@@ -140,13 +144,15 @@
     }
 
     handleFocus({ target }) {
-      target.parentElement.classList.add("focused");
+      if (target.parentElement.classList.contains("input"))
+        target.parentElement.classList.add("focused");
     }
 
     handleBlur({ target }) {
-      if (target.value.length == 0) {
-        target.parentElement.classList.remove("focused");
-      }
+      if (target.parentElement.classList.contains("input"))
+        if (target.value.length == 0) {
+          target.parentElement.classList.remove("focused");
+        }
     }
 
     handleInput({ target }) {
