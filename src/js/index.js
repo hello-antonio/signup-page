@@ -136,11 +136,27 @@
       else return true;
     }
 
+    resetForm(event) {
+      event.target.reset();
+      this.fields.forEach(field => {
+        this.removeAlert(field.id);
+        field.parentElement.classList.remove("focused");
+        field.classList.remove("valid");
+      });
+    }
+
     handleSubmit(event) {
       event.preventDefault();
 
       // returns true if form has no errors else false forms has errors.
-      this.submitForm();
+      if (this.submitForm()) {
+        // console.log("Succesful!");
+        this.resetForm(event);
+        return true;
+      } else {
+        // console.log("Failed!");
+        return false;
+      }
     }
 
     handleFocus({ target }) {

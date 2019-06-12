@@ -25,7 +25,7 @@ $input-pad : $padding $padding * 2;
 
 .form {
     max-width: 540px;
-    padding: $padding;
+    padding: $padding * 2 $padding $padding;
     border-radius: 12px;
     background-color: #fff;
     font-weight: $font-bold;
@@ -43,6 +43,7 @@ $input-pad : $padding $padding * 2;
         height: inherit;
         width: 100%;
         padding: $padding;
+        cursor: pointer;
 
         @media screen and (min-width:600px) {
             padding: $input-pad;
@@ -62,6 +63,11 @@ $input-pad : $padding $padding * 2;
         color: #fff;
         font-weight: $font-semibold;
         letter-spacing: 2px;
+
+        &:hover {
+            background-color: lighten($c-green, 10);
+            box-shadow: 0 4px 0 1px darken($c-green, 2);
+        }
     }
 
     input.invalid {
